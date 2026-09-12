@@ -1,12 +1,55 @@
 <!DOCTYPE html>
 <html>
+
+<title>Simple Imperative Language</title>
 <body>
    
-<h1>L0 Parser</h1>
+<h1 style="text-align: center">Simple Imperative Language Workout</h1>
 
+<center>
 <form>
   <table>
     <tr>
+      <td>
+        <p><label>Description:</label></p>
+        <textarea id="description" rows="39" cols="60" readonly style="text-align: left">
+          
+program: "{" stmt+ "}";
+          
+stmt:
+  "read" "(" IDENT ")" ";"?
+| "write" "(" expr ")" ";"?
+| IDENT "=" expr ";"?
+| IDENT BINOP "=" expr ";"?
+| "while" "(" expr ")" stmt
+| "do" stmt "while" "(" expr ")" ";"?
+| "for" (" stmt expr ";" stmt ")" stmt
+| "if" "(" expr ")" stmt elsePart?
+| "skip" ";"?
+| "{" stmt+ "}";
+
+elsePart: 
+  "else" stmt
+| "elif" "(" expr ")" stmt elsePart?;       
+
+expr:
+  IDENT
+  CONST
+| expr BINOP expr
+| "(" expr ")";
+
+BINOP: "!!" | "&&" | 
+       "==" | "!=" | "<=" | "<" | ">=" | ">" |
+       "+"  | "-"  | "*"  | "/" | "%";
+
+IDENT: [a-z][a-zA-Z_'0-9]*;
+CONST: [0-9]+;
+
+Comments: "--" ... <end of line> | "(*" ... "*)"; 
+        </textarea>                
+        <br>
+        <button type="button" id="hidden" style="visibility: hidden">Download</button>
+      </td>
       <td>
         <p><label for="input">Program text:</label></p>
         <textarea id="input" rows="20" cols="60"></textarea>
@@ -31,6 +74,7 @@
     </tr>
     </table>
 </form>
+</center>
 
 <script type="text/javascript" src="L0.js"></script>
 <script>
