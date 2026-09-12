@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<body>
+   
+<h1>L0 Parser</h1>
+
+<form>
+  <table>
+    <tr>
+      <td>
+        <p><label for="input">Program text:</label></p>
+        <textarea id="input" rows="20" cols="60"></textarea>
+        <br>
+        <p><label>Message:</label></p>
+        <textarea id="message" rows="5" cols="60"></textarea>
+        <br>
+        <p><label>Input:</label></p>
+        <textarea id="args" rows="1" cols="60"></textarea>
+        <br>
+        <p><label>Output:</label></p>
+        <textarea id="res" rows="1" cols="60"></textarea>
+        <br>
+        <button type="button" id="parse">Run</button>        
+      </td>
+      <td>
+        <p><label for="json">JSON representation:</label></p>
+        <textarea id="output" rows="39" cols="60"></textarea>
+        <br>
+        <button type="button" id="download">Download</button>
+      </td>
+    </tr>
+    </table>
+</form>
+
+<script type="text/javascript" src="L0.js"></script>
+<script>
+  let dwButton = document.getElementById ("download")
+  dwButton.onclick = () => {
+      let element = document.createElement ('a')
+      let blob = new Blob ([document.getElementById ("output").value], { type: 'plain/text' })
+      let fileUrl = URL.createObjectURL (blob)
+      
+      element.setAttribute ('href', fileUrl); 
+      element.setAttribute('download', 'contents.json'); 
+      element.style.display = 'none';  
+      document.body.appendChild (element);
+      element.click ();  
+      document.body.removeChild(element);      
+  }
+</script>
+</body>
+</html>
