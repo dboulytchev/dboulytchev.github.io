@@ -27,11 +27,17 @@ instruction:
 | JMP label
 | JZ label
 | JNZ label
+| ARRAY const
+| STRING string
+| LENGTH
+| ELEM
+| SET
 
-label --- labels in program
-var   --- variable names
-const --- constants
-binop --- binary operators
+label  --- labels in program
+var    --- variable names
+const  --- integer constants
+binop  --- binary operators
+string --- strings
         </textarea>                
         <br>
         <button type="button" id="hidden" style="visibility: hidden">Download</button>

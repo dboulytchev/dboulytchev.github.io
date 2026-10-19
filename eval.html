@@ -21,8 +21,8 @@ stmt:
 | "write" "(" expr ")" ";"?
 | IDENT "=" expr ";"?
 | IDENT BINOP "=" expr ";"?
-| expr ("[" expr "]")* "[" expr "]" "=" expr ";"?
-| expr ("[" expr "]")* "[" expr "]" BINOP "=" expr ";"?
+| primary ("[" expr "]")* "[" expr "]" "=" expr ";"?
+| primary ("[" expr "]")* "[" expr "]" BINOP "=" expr ";"?
 | "while" "(" expr ")" stmt
 | "do" stmt "while" "(" expr ")" ";"?
 | "for" (" stmt expr ";" stmt ")" stmt
@@ -35,13 +35,16 @@ elsePart:
 | "elif" "(" expr ")" stmt elsePart?;       
 
 expr:
-  IDENT
-  CONST
+  primary
 | expr BINOP expr
-| "(" expr ")"
 | "[" expr "," ... "]"
 | expr "[" expr "]"
 | expr "." "length";
+
+primary:
+  IDENT
+| CONST
+| "(" expr ")";
 
 BINOP: "!!" | "&&" | 
        "==" | "!=" | "<=" | "<" | ">=" | ">" |
