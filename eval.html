@@ -37,22 +37,30 @@ elsePart:
 expr:
   primary
 | expr BINOP expr
-| "[" expr "," ... "]"
 | expr "[" expr "]"
 | expr "." "length";
 
 primary:
   IDENT
 | CONST
+| CHAR
+| STRING
+| UIDENT ("(" expr "," ... ")")?
+| "[" expr "," ... "]"
+| "{" expr "," ... "}"
 | "(" expr ")";
 
 BINOP: "!!" | "&&" | 
        "==" | "!=" | "<=" | "<" | ">=" | ">" |
+       ":"  |	    
        "+"  | "-"  | "*"  | "/" | "%";
 
-IDENT: [a-z][a-zA-Z_'0-9]*;
-CONST: [0-9]+;
-
+IDENT : [a-z][a-zA-Z_'0-9]*;
+UIDENT: [A-Z][a-zA-Z_'0-9]*;
+CONST : [0-9]+;
+CHAR  : "'" char "'";
+STRING: """" char* """";
+	    
 Comments: "--" ... <end of line> | "(*" ... "*)"; 
         </textarea>                
         <br>
