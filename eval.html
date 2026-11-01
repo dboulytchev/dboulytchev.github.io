@@ -28,11 +28,33 @@ stmt:
 | "for" (" stmt expr ";" stmt ")" stmt
 | "if" "(" expr ")" stmt elsePart?
 | "skip" ";"?
+| "switch" "(" expr ")" "{" branches "}" ";"?
 | "{" stmt+ "}";
 
 elsePart: 
   "else" stmt
 | "elif" "(" expr ")" stmt elsePart?;       
+
+branches: branch "|" ...;
+
+branch: "case" pattern "->" stmt+;
+
+pattern: patternPrimary (":" pattern)?;
+
+patternPrimary:
+  "_"
+| IDENT
+| STRING
+| CHAR
+| IDENT "@" pattern
+| "[" pattern "," ... "]"
+| "(" pattern ")"
+| "{" pattern "," ... "}"
+| UIDENT ("(" pattern "," ... ")")?
+| "#" "array"
+| "#" "int"
+| "#" "string"
+| "#" "sexp";
 
 expr:
   primary
@@ -74,7 +96,7 @@ Comments: "--" ... <end of line> | "(*" ... "*)";
         <textarea id="message" rows="5" cols="60"></textarea>
         <br>
         <p><label>Input:</label></p>
-        <textarea id="args" rows="1" cols="60"></textarea>
+        <textarea id="args" rows="1" cols="60">0</textarea>
         <br>
         <p><label>Output:</label></p>
         <textarea id="res" rows="1" cols="60"></textarea>
