@@ -19,6 +19,7 @@ program: "{" stmt+ "}";
 stmt:
   "read" "(" IDENT ")" ";"?
 | "write" "(" expr ")" ";"?
+| IDENT "(" expr "," ... ")"
 | IDENT "=" expr ";"?
 | IDENT BINOP "=" expr ";"?
 | primary ("[" expr "]")* "[" expr "]" "=" expr ";"?
@@ -29,7 +30,16 @@ stmt:
 | "if" "(" expr ")" stmt elsePart?
 | "skip" ";"?
 | "switch" "(" expr ")" "{" branches "}" ";"?
-| "{" stmt+ "}";
+| "return" expr? ":"?
+| scope;
+
+scope: "{" decls? stmt+ "}"
+
+decls: (decl ";")*
+
+decl:
+  "var" (IDENT ("=" expr)? "," ...)
+| "fun" IDENT "(" IDENT "," ... ")" scope
 
 elsePart: 
   "else" stmt
@@ -67,6 +77,7 @@ primary:
 | CONST
 | CHAR
 | STRING
+| IDENT "(" expr "," ... ")"
 | UIDENT ("(" expr "," ... ")")?
 | "[" expr "," ... "]"
 | "{" expr "," ... "}"
